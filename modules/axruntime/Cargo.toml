@@ -16,8 +16,8 @@ smp = ["axhal/smp"]
 #irq = ["axhal/irq", "axtask?/irq", "percpu", "kernel_guard"]
 #irq = ["axhal/irq", "axtask?/irq"]
 #tls = ["axhal/tls", "axtask?/tls"]
-#alloc = ["axalloc"]
-#paging = ["axhal/paging", "lazy_init"]
+alloc = ["axalloc"]
+paging = ["axhal/paging", "lazy_init"]
 
 #multitask = ["axtask/multitask"]
 #fs = ["axdriver", "axfs"]
@@ -27,7 +27,7 @@ smp = ["axhal/smp"]
 axhal = { path = "../axhal" }
 axlog = { path = "../axlog" }
 axconfig = { path = "../axconfig" }
-#axalloc = { path = "../axalloc", optional = true }
+axalloc = { path = "../axalloc", optional = true }
 #axdriver = { path = "../axdriver", optional = true }
 #axfs = { path = "../axfs", optional = true }
 #axnet = { path = "../axnet", optional = true }

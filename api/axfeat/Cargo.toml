@@ -22,11 +22,11 @@ fp_simd = ["axhal/fp_simd"]
 #irq = ["axhal/irq", "axruntime/irq", "axtask?/irq"]
 
 # Memory
-#alloc = ["dep:axalloc", "axruntime/alloc"]
+alloc = ["dep:axalloc", "axruntime/alloc"]
 #alloc-tlsf = ["axalloc/tlsf"]
 #alloc-slab = ["axalloc/slab"]
 #alloc-buddy = ["axalloc/buddy"]
-#paging = ["alloc", "axhal/paging", "axruntime/paging"]
+paging = ["alloc", "axhal/paging", "axruntime/paging"]
 #tls = ["alloc", "axhal/tls", "axruntime/tls", "axtask?/tls"]
 
 # Multi-threading and scheduler
@@ -61,7 +61,7 @@ log-level-trace = ["axlog/log-level-trace"]
 axruntime = { path = "../../modules/axruntime" }
 axhal = { path = "../../modules/axhal" }
 axlog = { path = "../../modules/axlog" }
-#axalloc = { path = "../../modules/axalloc", optional = true }
+axalloc = { path = "../../modules/axalloc", optional = true }
 #axdriver = { path = "../../modules/axdriver", optional = true }
 #axfs = { path = "../../modules/axfs", optional = true }
 #axnet = { path = "../../modules/axnet", optional = true }

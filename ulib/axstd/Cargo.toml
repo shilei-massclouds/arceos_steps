@@ -24,13 +24,13 @@ default = []
 smp = ["axfeat/smp"]
 
 # Floating point/SIMD
-fp_simd = ["axfeat/fp_simd"]
+#fp_simd = ["axfeat/fp_simd"]
 
 # Interrupts
 #irq = ["arceos_api/irq", "axfeat/irq"]
 
 # Memory
-#alloc = ["arceos_api/alloc", "axfeat/alloc", "axio/alloc"]
+alloc = ["arceos_api/alloc", "axfeat/alloc", "axio/alloc"]
 #alloc-tlsf = ["axfeat/alloc-tlsf"]
 #alloc-slab = ["axfeat/alloc-slab"]
 #alloc-buddy = ["axfeat/alloc-buddy"]
@@ -49,7 +49,7 @@ fp_simd = ["axfeat/fp_simd"]
 
 # Networking
 #net = ["arceos_api/net", "axfeat/net"]
-dns = []
+#dns = []
 
 # Device drivers
 #bus-mmio = ["axfeat/bus-mmio"]
