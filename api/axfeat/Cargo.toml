@@ -19,7 +19,7 @@ smp = ["axhal/smp", "axruntime/smp", "spinlock/smp"]
 fp_simd = ["axhal/fp_simd"]
 
 # Interrupts
-#irq = ["axhal/irq", "axruntime/irq", "axtask?/irq"]
+irq = ["axhal/irq", "axruntime/irq", "axtask?/irq"]
 
 # Memory
 alloc = ["dep:axalloc", "axruntime/alloc"]
@@ -30,7 +30,7 @@ paging = ["alloc", "axhal/paging", "axruntime/paging"]
 #tls = ["alloc", "axhal/tls", "axruntime/tls", "axtask?/tls"]
 
 # Multi-threading and scheduler
-#multitask = ["alloc", "axtask/multitask", "axsync/multitask", "axruntime/multitask"]
+multitask = ["alloc", "axtask/multitask", "axsync/multitask", "axruntime/multitask"]
 #sched_fifo = ["axtask/sched_fifo"]
 #sched_rr = ["axtask/sched_rr", "irq"]
 #sched_cfs = ["axtask/sched_cfs", "irq"]
@@ -65,6 +65,6 @@ axalloc = { path = "../../modules/axalloc", optional = true }
 #axdriver = { path = "../../modules/axdriver", optional = true }
 #axfs = { path = "../../modules/axfs", optional = true }
 #axnet = { path = "../../modules/axnet", optional = true }
-#axsync = { path = "../../modules/axsync", optional = true }
-#axtask = { path = "../../modules/axtask", optional = true }
+axsync = { path = "../../modules/axsync", optional = true }
+axtask = { path = "../../modules/axtask", optional = true }
 spinlock = { path = "../../crates/spinlock", optional = true }

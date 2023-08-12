@@ -27,7 +27,7 @@ smp = ["axfeat/smp"]
 #fp_simd = ["axfeat/fp_simd"]
 
 # Interrupts
-#irq = ["arceos_api/irq", "axfeat/irq"]
+irq = ["arceos_api/irq", "axfeat/irq"]
 
 # Memory
 alloc = ["arceos_api/alloc", "axfeat/alloc", "axio/alloc"]
@@ -38,7 +38,7 @@ alloc = ["arceos_api/alloc", "axfeat/alloc", "axio/alloc"]
 #tls = ["axfeat/tls"]
 
 # Multi-threading and scheduler
-#multitask = ["arceos_api/multitask", "axfeat/multitask"]
+multitask = ["arceos_api/multitask", "axfeat/multitask"]
 #sched_fifo = ["axfeat/sched_fifo"]
 #sched_rr = ["axfeat/sched_rr"]
 #sched_cfs = ["axfeat/sched_cfs"]
@@ -70,5 +70,5 @@ log-level-trace = ["axfeat/log-level-trace"]
 axfeat = { path = "../../api/axfeat" }
 arceos_api = { path = "../../api/arceos_api" }
 axio = { path = "../../crates/axio" }
-#axerrno = { path = "../../crates/axerrno" }
+axerrno = { path = "../../crates/axerrno" }
 spinlock = { path = "../../crates/spinlock" }
