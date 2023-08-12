@@ -1,25 +1,17 @@
-use alloc::sync::Arc;
+use alloc::{collections::VecDeque, sync::Arc};
 use core::ops::Deref;
-
-use linked_list::{Adapter, Links, List};
+use core::sync::atomic::{AtomicIsize, Ordering};
 
 use crate::BaseScheduler;
+
+const MAX_TIME_SLICE: isize = 5;
 
 /// A task wrapper for the [`SimpleScheduler`].
 ///
 /// It add extra states to use in [`linked_list::List`].
 pub struct SimpleTask<T> {
     inner: T,
-    links: Links<Self>,
-}
-
-unsafe impl<T> Adapter for SimpleTask<T> {
-    type EntryType = Self;
-
-    #[inline]
-    fn to_links(t: &Self) -> &Links<Self> {
-        &t.links
-    }
+    time_slice: AtomicIsize,
 }
 
 impl<T> SimpleTask<T> {
@@ -27,8 +19,16 @@ impl<T> SimpleTask<T> {
     pub const fn new(inner: T) -> Self {
         Self {
             inner,
-            links: Links::new(),
+            time_slice: AtomicIsize::new(MAX_TIME_SLICE),
         }
+    }
+
+    fn time_slice(&self) -> isize {
+        self.time_slice.load(Ordering::Acquire)
+    }
+
+    fn reset_time_slice(&self) {
+        self.time_slice.store(MAX_TIME_SLICE, Ordering::Release);
     }
 
     /// Returns a reference to the inner task struct.
@@ -53,16 +53,15 @@ impl<T> Deref for SimpleTask<T> {
 ///
 /// As it's a cooperative scheduler, it does nothing when the timer tick occurs.
 ///
-/// It internally uses a linked list as the ready queue.
 pub struct SimpleScheduler<T> {
-    ready_queue: List<Arc<SimpleTask<T>>>,
+    ready_queue: VecDeque<Arc<SimpleTask<T>>>,
 }
 
 impl<T> SimpleScheduler<T> {
     /// Creates a new empty [`SimpleScheduler`].
     pub const fn new() -> Self {
         Self {
-            ready_queue: List::new(),
+            ready_queue: VecDeque::new(),
         }
     }
     /// get the name of scheduler
@@ -83,19 +82,30 @@ impl<T> BaseScheduler for SimpleScheduler<T> {
 
     fn remove_task(&mut self, task: &Self::SchedItem) -> Option<Self::SchedItem> {
         trace!("######### remove_task");
-        unsafe { self.ready_queue.remove(task) }
+        self.ready_queue
+            .iter()
+            .position(|t| Arc::ptr_eq(t, task))
+            .and_then(|idx| self.ready_queue.remove(idx))
     }
 
     fn pick_next_task(&mut self) -> Option<Self::SchedItem> {
         self.ready_queue.pop_front()
     }
 
-    fn put_prev_task(&mut self, prev: Self::SchedItem, _preempt: bool) {
-        self.ready_queue.push_back(prev);
+    fn put_prev_task(&mut self, prev: Self::SchedItem, preempt: bool) {
+        trace!("###### preempt {}", preempt);
+        if prev.time_slice() > 0 && preempt {
+            self.ready_queue.push_front(prev)
+        } else {
+            prev.reset_time_slice();
+            self.ready_queue.push_back(prev)
+        }
     }
 
-    fn task_tick(&mut self, _current: &Self::SchedItem) -> bool {
-        false // no reschedule
+    fn task_tick(&mut self, current: &Self::SchedItem) -> bool {
+        let old_slice = current.time_slice.fetch_sub(1, Ordering::Release);
+        trace!("###### old_slice {}", old_slice);
+        old_slice <= 1
     }
 
     fn set_priority(&mut self, _task: &Self::SchedItem, _prio: isize) -> bool {
