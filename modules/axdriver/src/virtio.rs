@@ -6,6 +6,7 @@ use axhal::mem::{phys_to_virt, virt_to_phys};
 use cfg_if::cfg_if;
 use driver_common::{BaseDriverOps, DevResult, DeviceType};
 use driver_virtio::{BufferDirection, PhysAddr, VirtIoHal};
+use crate::NetFilter;
 
 use crate::{drivers::DriverProbe, AxDeviceEnum};
 
@@ -37,7 +38,11 @@ cfg_if! {
             type Device = driver_virtio::VirtIoNetDev<VirtIoHalImpl, VirtIoTransport, 64>;
 
             fn try_new(transport: VirtIoTransport) -> DevResult<AxDeviceEnum> {
-                Ok(AxDeviceEnum::from_net(Self::Device::try_new(transport)?))
+                Ok(AxDeviceEnum::from_net(
+                    NetFilter {
+                        inner: Self::Device::try_new(transport)?
+                    }
+                ))
             }
         }
     }

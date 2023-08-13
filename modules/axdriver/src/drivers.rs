@@ -3,7 +3,9 @@
 #![allow(unused_imports)]
 
 use crate::AxDeviceEnum;
+use crate::NetFilter;
 use driver_common::DeviceType;
+use driver_common::BaseDriverOps;
 
 #[cfg(feature = "virtio")]
 use crate::virtio::{self, VirtIoDevMeta};
@@ -33,10 +35,19 @@ pub trait DriverProbe {
     }
 }
 
+impl<T: BaseDriverOps> BaseDriverOps for NetFilter<T> {
+    fn device_type(&self) -> DeviceType {
+        self.inner.device_type()
+    }
+    fn device_name(&self) -> &str {
+        self.inner.device_name()
+    }
+}
+
 #[cfg(net_dev = "virtio-net")]
 register_net_driver!(
     <virtio::VirtIoNet as VirtIoDevMeta>::Driver,
-    <virtio::VirtIoNet as VirtIoDevMeta>::Device
+    NetFilter<<virtio::VirtIoNet as VirtIoDevMeta>::Device>
 );
 
 #[cfg(block_dev = "virtio-blk")]

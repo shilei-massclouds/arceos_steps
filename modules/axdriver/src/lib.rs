@@ -92,6 +92,53 @@ pub use self::structs::AxDisplayDevice;
 #[cfg(feature = "net")]
 pub use self::structs::AxNetDevice;
 
+use driver_net::EthernetAddress;
+use driver_net::NetBufPtr;
+
+pub struct NetFilter<T> {
+    inner: T,
+}
+
+impl<T: BaseDriverOps+NetDriverOps> NetDriverOps for NetFilter<T> {
+    fn mac_address(&self) -> EthernetAddress {
+        info!("Filter: mac_addr[]");
+        self.inner.mac_address()
+    }
+    fn can_transmit(&self) -> bool {
+        self.inner.can_transmit()
+    }
+    fn can_receive(&self) -> bool {
+        info!("Filter: can_receive[]");
+        self.inner.can_receive()
+    }
+    fn rx_queue_size(&self) -> usize {
+        self.inner.rx_queue_size()
+    }
+    fn tx_queue_size(&self) -> usize {
+        self.inner.tx_queue_size()
+    }
+    fn recycle_rx_buffer(&mut self, ptr: NetBufPtr) -> DevResult {
+        self.inner.recycle_rx_buffer(ptr)
+    }
+    fn recycle_tx_buffers(&mut self) -> DevResult {
+        self.inner.recycle_tx_buffers()
+    }
+    fn transmit(&mut self, ptr: NetBufPtr) -> DevResult {
+        info!("Filter: transmit len[{}]", ptr.packet_len());
+        self.inner.transmit(ptr)
+    }
+    fn receive(&mut self) -> DevResult<NetBufPtr> {
+        let ret = self.inner.receive();
+        if let Ok(ref b) = ret {
+            info!("Filter: receive len[{:?}]", b.packet_len());
+        }
+        ret
+    }
+    fn alloc_tx_buffer(&mut self, size: usize) -> DevResult<NetBufPtr> {
+        self.inner.alloc_tx_buffer(size)
+    }
+}
+
 /// A structure that contains all device drivers, organized by their category.
 #[derive(Default)]
 pub struct AllDevices {
