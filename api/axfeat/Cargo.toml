@@ -40,7 +40,7 @@ fs = ["alloc", "paging", "axdriver/virtio-blk", "dep:axfs", "axruntime/fs"] # TO
 myfs = ["axfs?/myfs"]
 
 # Networking
-#net = ["alloc", "paging", "axdriver/virtio-net", "dep:axnet", "axruntime/net"]
+net = ["alloc", "paging", "axdriver/virtio-net", "dep:axnet", "axruntime/net"]
 
 # Device drivers
 #bus-mmio = ["axdriver?/bus-mmio"]
@@ -64,7 +64,7 @@ axlog = { path = "../../modules/axlog" }
 axalloc = { path = "../../modules/axalloc", optional = true }
 axdriver = { path = "../../modules/axdriver", optional = true }
 axfs = { path = "../../modules/axfs", optional = true }
-#axnet = { path = "../../modules/axnet", optional = true }
+axnet = { path = "../../modules/axnet", optional = true }
 axsync = { path = "../../modules/axsync", optional = true }
 axtask = { path = "../../modules/axtask", optional = true }
 spinlock = { path = "../../crates/spinlock", optional = true }
