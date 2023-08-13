@@ -36,8 +36,8 @@ multitask = ["alloc", "axtask/multitask", "axsync/multitask", "axruntime/multita
 #sched_cfs = ["axtask/sched_cfs", "irq"]
 
 # File system
-#fs = ["alloc", "paging", "axdriver/virtio-blk", "dep:axfs", "axruntime/fs"] # TODO: try to remove "paging"
-#myfs = ["axfs?/myfs"]
+fs = ["alloc", "paging", "axdriver/virtio-blk", "dep:axfs", "axruntime/fs"] # TODO: try to remove "paging"
+myfs = ["axfs?/myfs"]
 
 # Networking
 #net = ["alloc", "paging", "axdriver/virtio-net", "dep:axnet", "axruntime/net"]
@@ -45,7 +45,7 @@ multitask = ["alloc", "axtask/multitask", "axsync/multitask", "axruntime/multita
 # Device drivers
 #bus-mmio = ["axdriver?/bus-mmio"]
 #bus-pci = ["axdriver?/bus-pci"]
-#driver-ramdisk = ["axdriver?/ramdisk", "axfs?/use-ramdisk"]
+driver-ramdisk = ["axdriver?/ramdisk", "axfs?/use-ramdisk"]
 #driver-ixgbe = ["axdriver?/ixgbe"]
 #driver-bcm2835-sdhci = ["axdriver?/bcm2835-sdhci"]
 
@@ -62,8 +62,8 @@ axruntime = { path = "../../modules/axruntime" }
 axhal = { path = "../../modules/axhal" }
 axlog = { path = "../../modules/axlog" }
 axalloc = { path = "../../modules/axalloc", optional = true }
-#axdriver = { path = "../../modules/axdriver", optional = true }
-#axfs = { path = "../../modules/axfs", optional = true }
+axdriver = { path = "../../modules/axdriver", optional = true }
+axfs = { path = "../../modules/axfs", optional = true }
 #axnet = { path = "../../modules/axnet", optional = true }
 axsync = { path = "../../modules/axsync", optional = true }
 axtask = { path = "../../modules/axtask", optional = true }

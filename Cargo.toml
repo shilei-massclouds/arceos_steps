@@ -58,6 +58,7 @@ members = [
     "apps/helloworld",
     "apps/memtest",
     "apps/preempt",
+    "apps/copyfile",
 #    "apps/fs/shell",
 #    "apps/net/echoserver",
 #    "apps/net/httpclient",

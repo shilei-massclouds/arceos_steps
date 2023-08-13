@@ -15,10 +15,10 @@ default = []
 irq = ["axfeat/irq"]
 alloc = ["dep:axalloc", "axfeat/alloc"]
 multitask = ["axtask/multitask", "axfeat/multitask"]
-#fs = ["dep:axfs", "axfeat/fs"]
+fs = ["dep:axfs", "axfeat/fs"]
 #net = ["dep:axnet", "axfeat/net"]
 
-#myfs = ["axfeat/myfs"]
+myfs = ["axfeat/myfs"]
 
 # Use dummy functions if the feature is not enabled
 dummy-if-not-enabled = []
@@ -33,5 +33,5 @@ axerrno = { path = "../../crates/axerrno" }
 axhal = { path = "../../modules/axhal" }
 axalloc = { path = "../../modules/axalloc", optional = true }
 axtask = { path = "../../modules/axtask", optional = true }
-#axfs = { path = "../../modules/axfs", optional = true }
+axfs = { path = "../../modules/axfs", optional = true }
 #axnet = { path = "../../modules/axnet", optional = true }
